@@ -1,34 +1,36 @@
-import { ActionPanel, Action, Icon, List } from "@raycast/api";
+import { Form } from "@raycast/api";
+import { useState } from "react";
 
 export default function Command() {
-  return (
-    <List>
-      <List.Section title="Basics">
-        <LinkListItem title="Familiarize yourself with Raycast" link="https://raycast.com/manual" />
-        <LinkListItem title="Install extensions from our public store" link="https://www.raycast.com/store" />
-        <LinkListItem title="Build your own extensions with our API" link="https://developers.raycast.com" />
-        <LinkListItem title="Invite your teammates" link="raycast://organizations/x-job/manage" />
-      </List.Section>
-      <List.Section title="Next Steps">
-        <LinkListItem title="Join the Raycast community" link="https://raycast.com/community" />
-        <LinkListItem title="Stay up to date via Twitter" link="https://twitter.com/raycastapp" />
-      </List.Section>
-    </List>
-  );
-}
+  const [inputText, setInputText] = useState("");
+  const [outputText, setOutputText] = useState("");
 
-function LinkListItem(props: { title: string; link: string }) {
+  const handleInputChange = (value: string) => {
+    setInputText(value);
+    // 删除空格和回车
+    const processedText = value.replace(/[\s\n]/g, "");
+    setOutputText(processedText);
+  };
+
+  const handleOutputChange = (value: string) => {
+
+  }
+
   return (
-    <List.Item
-      title={props.title}
-      icon={Icon.Link}
-      accessories={[{ text: props.link }]}
-      actions={
-        <ActionPanel>
-          <Action.OpenInBrowser url={props.link} />
-          <Action.CopyToClipboard title="Copy Link" content={props.link} />
-        </ActionPanel>
-      }
-    />
+    <Form>
+      <Form.TextArea
+        id="input"
+        title="input"
+        placeholder="Enter something"
+        onChange={handleInputChange}
+        value={inputText} />
+      <Form.TextArea
+        id="output"
+        title="output"
+        placeholder="Processed text"
+        onChange={handleOutputChange}
+        value={outputText}
+      />
+    </Form>
   );
 }
